@@ -26,8 +26,8 @@ public class ShortAudioPlayer : MonoBehaviour
     {
         fileName = Random.Range(0, 5034).ToString() + ".mp3";
 		mediaPlayer.OpenVideoFromFile(location, folder + fileName);
+		
 	}
-
 	public void OnVideoEvent(MediaPlayer mp, MediaPlayerEvent.EventType et, ErrorCode errorCode)
 	{
 		switch (et)
@@ -45,5 +45,9 @@ public class ShortAudioPlayer : MonoBehaviour
 
 		Debug.Log("Event: " + et.ToString());
 	}
-
+	public void StopShortAudio()
+	{
+		mediaPlayer.Control.Pause();
+		Debug.Log("StopShortAudio");
+	}
 }

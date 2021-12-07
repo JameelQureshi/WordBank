@@ -1,62 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
-using RenderHeads.Media.AVProVideo;
 using UnityEngine;
 
 public class LongAudioPlayer : MonoBehaviour
 {
-	private MediaPlayer mediaPlayer;
-
-	private MediaPlayer.FileLocation location = MediaPlayer.FileLocation.RelativeToStreamingAssetsFolder;
-	private string LongVideofolder = "wordbank/long/";
-	private string fileName;
-
-
+	private AudioSource audioSource;
+	
 	private void Start()
 	{
-		mediaPlayer = GetComponent<MediaPlayer>();
-		mediaPlayer.Events.AddListener(OnVideoEvent);
-		//PlayLongAudio();
+		audioSource = GetComponent<AudioSource>();
 	}
-	public void PlayLongAudio()
-	{
-		fileName = Random.Range(1, 8).ToString() + ".mp3";
-		//Debug.Log(fileName);
-		mediaPlayer.OpenVideoFromFile(location, LongVideofolder+fileName, false);
-	}
-	public void OnVideoEvent(MediaPlayer mp, MediaPlayerEvent.EventType et, ErrorCode errorCode)
-	{
-		switch (et)
-		{
-			case MediaPlayerEvent.EventType.ReadyToPlay:
 
-				int sec = (int)(mediaPlayer.Info.GetDurationMs() / 1000);
-				//Debug.Log("Length: " + sec);
-				int seek = Random.Range(0, sec - 3);
-				//Debug.Log("Seek :" + seek);
-				mediaPlayer.Control.SeekFast(seek * 1000);
-				mediaPlayer.Play();
-				StartCoroutine(WaitForSeconds());
-				break;
-			case MediaPlayerEvent.EventType.Started:
-				break;
-			case MediaPlayerEvent.EventType.FirstFrameReady:
-				break;
-			case MediaPlayerEvent.EventType.FinishedPlaying:
-				break;
-		}
 
-		Debug.Log("Event: " + et.ToString());
+	
+	public void Play()
+	{
+		string fileName = Random.Range(1,9).ToString();
+		//Load an AudioClip (Assets/Resources/long/*.mp3)
+		var audioClip = Resources.Load<AudioClip>("long/" + fileName);
+		audioSource.clip = audioClip;
+		int sec = (int)audioSource.clip.length;
+		int seek = Random.Range(0, sec - 3);
+		audioSource.time = seek;
+		audioSource.Play();
+		StartCoroutine(PlayNextClip());
 	}
-	private IEnumerator WaitForSeconds()
+	
+	private IEnumerator PlayNextClip()
 	{
 		yield return new WaitForSeconds(3);
-		PlayLongAudio();
+		Play();
 	}
-	public void StopLongAudio()
+	public void Stop()
 	{
-		
-		mediaPlayer.Control.Pause();
+		audioSource.Stop();
 		StopAllCoroutines();
 		Debug.Log("StopLongAudio");
 	}

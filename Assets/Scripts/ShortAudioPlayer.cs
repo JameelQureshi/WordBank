@@ -1,53 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
-using RenderHeads.Media.AVProVideo;
 using UnityEngine;
 
 public class ShortAudioPlayer : MonoBehaviour
 {
 
-   
 
-    private MediaPlayer mediaPlayer;
-
-    private MediaPlayer.FileLocation location = MediaPlayer.FileLocation.RelativeToStreamingAssetsFolder;
-    private string folder = "wordbank/short/";
-    private string fileName;
-
+	private AudioSource audioSource;
+	private bool canPlay;
 
     private void Start()
     {
-		mediaPlayer = GetComponent<MediaPlayer>();
-		mediaPlayer.Events.AddListener(OnVideoEvent);
+		audioSource = GetComponent<AudioSource>();
 	}
 
 
-    public void PlayShortAudio()
+    public void Play()
     {
-        fileName = Random.Range(0, 5034).ToString() + ".mp3";
-		//mediaPlayer.OpenVideoFromFile(location, folder + fileName);
-		
+		canPlay = true;
+		string fileName = Random.Range(0, 5034).ToString();
+		//Load an AudioClip (Assets/Resources/short/*.mp3)
+		var audioClip = Resources.Load<AudioClip>("short/"+fileName);
+		audioSource.clip = audioClip;
+		audioSource.Play();
 	}
-	public void OnVideoEvent(MediaPlayer mp, MediaPlayerEvent.EventType et, ErrorCode errorCode)
+	void Update()
 	{
-		switch (et)
+        if (!canPlay)
+        {
+			return;
+        }
+		if (!audioSource.isPlaying)
 		{
-			case MediaPlayerEvent.EventType.ReadyToPlay:
-				break;
-			case MediaPlayerEvent.EventType.Started:
-				break;
-			case MediaPlayerEvent.EventType.FirstFrameReady:
-				break;
-			case MediaPlayerEvent.EventType.FinishedPlaying:
-				PlayShortAudio();
-				break;
+			Play();
 		}
-
-		Debug.Log("Event: " + et.ToString());
 	}
-	public void StopShortAudio()
+
+	
+	public void Stop()
 	{
-		mediaPlayer.Control.Pause();
+		canPlay = false;
+		audioSource.Stop();
 		Debug.Log("StopShortAudio");
 	}
 }

@@ -22,6 +22,8 @@ public class EffectsController : MonoBehaviour
     public AudioReverbFilter audioReverbFilter;
     public AudioDistortionFilter audioDistortionFilter;
 
+    public AudioSource noiseSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,11 +31,29 @@ public class EffectsController : MonoBehaviour
         audioReverbFilter.enabled = false;
         audioDistortionFilter.enabled = false;
     }
+    public void StartNoise()
+    {
+        noiseSource.Play();
+        noise.sprite = noise_red;
+    }
+    public void StopNoise()
+    {
+        noiseSource.Pause();
+        noise.sprite = noise_white;
+    }
+
 
     public void ToogleNoise()
     {
-        audioDistortionFilter.enabled = !audioDistortionFilter.enabled;
-        if (audioDistortionFilter.enabled)
+        if (noiseSource.isPlaying)
+        {
+            noiseSource.Pause();
+        }
+        else
+        {
+            noiseSource.Play();
+        }
+        if (noiseSource.isPlaying)
         {
             noise.sprite = noise_red;
         }

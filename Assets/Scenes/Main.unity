@@ -684,9 +684,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1000441303}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
+      - m_Target: {fileID: 892943518}
+        m_TargetAssemblyTypeName: EffectsController, Assembly-CSharp
+        m_MethodName: StartNoise
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -864,9 +864,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1000441303}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Pause
+      - m_Target: {fileID: 892943518}
+        m_TargetAssemblyTypeName: EffectsController, Assembly-CSharp
+        m_MethodName: StopNoise
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -969,6 +969,7 @@ MonoBehaviour:
   audioEchoFilter: {fileID: 963194231}
   audioReverbFilter: {fileID: 963194230}
   audioDistortionFilter: {fileID: 963194229}
+  noiseSource: {fileID: 1000441303}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1063,7 +1064,7 @@ AudioDistortionFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_Enabled: 0
-  m_DistortionLevel: 0.9
+  m_DistortionLevel: 0.7
 --- !u!164 &963194230
 AudioReverbFilter:
   m_ObjectHideFlags: 0
@@ -1110,7 +1111,7 @@ GameObject:
   - component: {fileID: 1000441302}
   - component: {fileID: 1000441303}
   m_Layer: 0
-  m_Name: BackgroundMusic
+  m_Name: NoiseAudioSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
